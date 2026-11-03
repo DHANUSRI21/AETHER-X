@@ -21,6 +21,10 @@ add_executable(aether_monitor
   src/aether_monitor.cpp
 )
 
+target_include_directories(aether_monitor PRIVATE
+  include
+)
+
 ament_target_dependencies(aether_node
   rclcpp
   std_msgs
