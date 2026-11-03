@@ -1,0 +1,46 @@
+name: AETHER-X CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up ROS 2 Jazzy
+        uses: ros-tooling/setup-ros@v0.7
+        with:
+          required-ros-distributions: jazzy
+
+      - name: Install dependencies
+        shell: bash
+        run: |
+          set -e
+          source /opt/ros/jazzy/setup.bash
+          cd ros2_ws
+          rosdep update
+          rosdep install --from-paths src --ignore-src -r -y
+
+      - name: Build AETHER-X
+        shell: bash
+        run: |
+          set -e
+          source /opt/ros/jazzy/setup.bash
+          cd ros2_ws
+          colcon build --packages-select aether_core
+
+      - name: Run tests and lint checks
+        shell: bash
+        run: |
+          set -e
+          source /opt/ros/jazzy/setup.bash
+          cd ros2_ws
+          colcon test --packages-select aether_core --ctest-args --output-on-failure
+          colcon test-result --verbose
