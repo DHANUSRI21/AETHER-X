@@ -22,7 +22,7 @@ jobs:
       - name: Install ROS 2 Jazzy
         shell: bash
         run: |
-          set -euo pipefail
+          set -eo pipefail
 
           sudo apt-get update
           sudo apt-get install -y curl ca-certificates
@@ -59,7 +59,7 @@ jobs:
       - name: Install workspace dependencies
         shell: bash
         run: |
-          set -euo pipefail
+          set -eo pipefail
 
           source /opt/ros/jazzy/setup.bash
 
@@ -81,7 +81,7 @@ jobs:
       - name: Build complete AETHER-X workspace
         shell: bash
         run: |
-          set -euo pipefail
+          set -eo pipefail
 
           source /opt/ros/jazzy/setup.bash
           cd ros2_ws
@@ -91,7 +91,7 @@ jobs:
       - name: Run complete test suite
         shell: bash
         run: |
-          set -euo pipefail
+          set -eo pipefail
 
           source /opt/ros/jazzy/setup.bash
           cd ros2_ws
