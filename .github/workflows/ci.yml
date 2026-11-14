@@ -6,41 +6,98 @@ on:
   pull_request:
     branches: [main]
 
+permissions:
+  contents: read
+
 jobs:
   build-and-test:
+    name: Build and test ROS 2 Jazzy workspace
     runs-on: ubuntu-24.04
+    timeout-minutes: 30
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
 
-      - name: Set up ROS 2 Jazzy
-        uses: ros-tooling/setup-ros@v0.7
-        with:
-          required-ros-distributions: jazzy
-
-      - name: Install dependencies
+      - name: Install ROS 2 Jazzy
         shell: bash
         run: |
-          set -e
+          set -euo pipefail
+
+          sudo apt-get update
+          sudo apt-get install -y curl ca-certificates
+
+          ROS_APT_SOURCE_VERSION="1.3.0"
+          UBUNTU_CODENAME=$(
+            . /etc/os-release
+            echo "${UBUNTU_CODENAME:-${VERSION_CODENAME}}"
+          )
+
+          if [[ "$UBUNTU_CODENAME" != "noble" ]]; then
+            echo "Expected Ubuntu 24.04 (noble), got $UBUNTU_CODENAME"
+            exit 1
+          fi
+
+          PACKAGE_URL="https://github.com/ros-infrastructure/ros-apt-source/releases/download/${ROS_APT_SOURCE_VERSION}/ros2-apt-source_${ROS_APT_SOURCE_VERSION}.${UBUNTU_CODENAME}_all.deb"
+
+          curl --fail --show-error --location \
+            --retry 3 --retry-delay 2 \
+            "$PACKAGE_URL" \
+            -o /tmp/ros2-apt-source.deb
+
+          echo "f31d84adf5054c7d60ded0e82c0f776a77ea33af53d08f40b9ad7c94cca55296  /tmp/ros2-apt-source.deb" \
+            | sha256sum --check -
+
+          sudo dpkg -i /tmp/ros2-apt-source.deb
+          sudo apt-get update
+
+          sudo apt-get install -y \
+            ros-jazzy-ros-base \
+            python3-rosdep \
+            python3-colcon-common-extensions
+
+      - name: Install workspace dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+
           source /opt/ros/jazzy/setup.bash
-          cd ros2_ws
+
+          if [[ ! -f /etc/ros/rosdep/sources.list.d/20-default.list ]]; then
+            sudo rosdep init
+          fi
+
           rosdep update
-          rosdep install --from-paths src --ignore-src -r -y
 
-      - name: Build AETHER-X
+          cd ros2_ws
+
+          rosdep install \
+            --from-paths src \
+            --ignore-src \
+            --rosdistro jazzy \
+            --skip-keys="" \
+            -r -y
+
+      - name: Build complete AETHER-X workspace
         shell: bash
         run: |
-          set -e
+          set -euo pipefail
+
           source /opt/ros/jazzy/setup.bash
           cd ros2_ws
-          colcon build --packages-select aether_core
 
-      - name: Run tests and lint checks
+          colcon build --event-handlers console_cohesion+
+
+      - name: Run complete test suite
         shell: bash
         run: |
-          set -e
+          set -euo pipefail
+
           source /opt/ros/jazzy/setup.bash
           cd ros2_ws
-          colcon test --packages-select aether_core --ctest-args --output-on-failure
+
+          colcon test \
+            --event-handlers console_cohesion+ \
+            --ctest-args --output-on-failure
+
           colcon test-result --verbose
