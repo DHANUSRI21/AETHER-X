@@ -26,3 +26,17 @@ Thumbs.db
 
 # Logs
 *.log
+
+# Temporary source backups
+*.bak
+*.orig
+*.swp
+
+# Local duplicate release-kit extraction
+/AETHER-X-Release-Evidence-Kit/
+
+# Duplicate runtime snapshot (canonical copy is under ros2_ws/evidence)
+/evidence/runtime_smoke_20261115/
+
+# Generated SLAM pose-graph session data
+/maps/*_posegraph.*

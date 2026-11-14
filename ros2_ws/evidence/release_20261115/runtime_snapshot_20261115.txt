@@ -1,0 +1,189 @@
+AETHER-X RUNTIME SMOKE TEST
+Sat Nov 14 21:10:59 UTC 2026
+
+===== ROS NODES =====
+/aether_monitor
+/aether_node
+/aetherxmocksystem
+/behavior_server
+/bt_navigator
+/bt_navigator_navigate_through_poses_rclcpp_node
+/bt_navigator_navigate_to_pose_rclcpp_node
+/controller_manager
+/controller_server
+/diff_drive_controller
+/ekf_filter_node
+/ekf_filter_node_map
+/global_costmap/global_costmap
+/gnss_simulator
+/imu_simulator
+/joint_state_broadcaster
+/lidar_simulator
+/lifecycle_manager_navigation
+/local_costmap/local_costmap
+/navsat_transform_node
+/planner_server
+/robot_state_publisher
+/slam_toolbox
+/smoother_server
+/transform_listener_impl_55b38ea296a0
+/transform_listener_impl_5a29f53fd2d0
+/transform_listener_impl_5bc75d672d10
+/transform_listener_impl_5be2ae6b46c0
+/transform_listener_impl_5f1ec22bf8e0
+/transform_listener_impl_64c9136cbc30
+
+===== CONTROLLERS =====
+[INFO] [1794690661.857303721] [_ros2cli_6741]: waiting for service /controller_manager/list_controllers to become available...
+diff_drive_controller   diff_drive_controller/DiffDriveController      active
+joint_state_broadcaster joint_state_broadcaster/JointStateBroadcaster  active
+
+===== NAV2 LIFECYCLE =====
+active [3]
+active [3]
+active [3]
+active [3]
+active [3]
+
+===== NAVIGATION ACTIONS =====
+/backup
+/compute_path_through_poses
+/compute_path_to_pose
+/drive_on_heading
+/follow_path
+/navigate_through_poses
+/navigate_to_pose
+/smooth_path
+/spin
+/wait
+
+===== CORE STATUS =====
+data: AETHER-X CORE ONLINE
+---
+
+===== FINAL ODOMETRY =====
+A message was lost!!!
+	total count change:1
+	total count: 1---
+header:
+  stamp:
+    sec: 1794690677
+    nanosec: 328260860
+  frame_id: odom
+child_frame_id: base_footprint
+pose:
+  pose:
+    position:
+      x: 0.8453813182206019
+      y: 0.3780628465482524
+      z: 0.0
+    orientation:
+      x: 0.0
+      y: 0.0
+      z: 0.11327412925219998
+      w: 0.9935637733141018
+  covariance:
+  - 0.01
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.01
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 1000000.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 1000000.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 1000000.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.02
+twist:
+  twist:
+    linear:
+      x: 9.157172498709293e-17
+      y: 0.0
+      z: 0.0
+    angular:
+      x: 0.0
+      y: 0.0
+      z: -4.440892098500626e-16
+  covariance:
+  - 0.01
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.01
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 1000000.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 1000000.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 1000000.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.0
+  - 0.02
+---
+
+===== FINAL CONTROLLER OUTPUT =====
+A message was lost!!!
+	total count change:1
+	total count: 1---
+header:
+  stamp:
+    sec: 1794690680
+    nanosec: 348073671
+  frame_id: ''
+twist:
+  linear:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+  angular:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+---
